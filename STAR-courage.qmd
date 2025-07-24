@@ -148,24 +148,33 @@ tibble(
 * Estimate a model in which `g4math` is the dependent variable and `kind` (class type) is the independent variable. How do you interpret the results? Be sure to also display the confidence intervals.
 
 ```{r}
-
+#| message: false
+model <- lm(g4math ~ kind, data = x)  # Replace your_data with your actual dataset name
+# Get coefficients with confidence intervals
+tidy_model <- tidy(model, conf.int = TRUE)
+tidy_model
 ```
-
+Answer: Logistic regression model. Regular class intercept value is 710 with variation of 707 to 712. kind add and kind small are not reliable because range has 0 value which shows uncertanity.
 * Estimate a model in which `g4math` is the dependent variable and both `kind` and `race` are the independent variables. How do you interpret the results? 
 
 ```{r}
-
+fit_x <- linear_reg() |> 
+  fit(g4math ~ kind + race, data = x) |> 
+  tidy(conf.int = TRUE)
+fit_x
 ```
+Answer: Logistic Regression Model, Regular clas intercept value is 696 with variation between 691 to 701. Race hisponic and white are reliable. Hisponic contributes 34.6 with variation between 6.31 to 62.9. Similarlt, white contribute 16.1 with variation between 11.2 to 20.9.
 
  Show the output of the code below to AI. Ask for help in interpreting it. What do the coefficients for kind and race suggest? Are any effects statistically significant? How certain or uncertain should I be about these estimates?  
 
 
 ```{r}
-linear_reg() |> 
+fit_xfinal <- linear_reg() |> 
   fit(g4math ~ kind + race + yearssmall + kind*race, data = x) |> 
   tidy(conf.int = TRUE)
+fit_xfinal
 ```
-
+Answer: Race white and yearssmall are reliable with coefficients 13.2 and 2.25 with variations 5.02 to 21.3 and 0.16 to 4.34, respectively. Rest all are not reliable as they include 0 in conf. interval and p value is also not significant.
  ## More Information
 
 Frederick Mosteller (1995) “The Tennessee study of class size in the early school grades.” The Future of Children, vol. 5, no. 2, pp. 113–127. Data cleaned and discussed in "Quantitative Social Science: An Introduction" by Kosuke Imai.
